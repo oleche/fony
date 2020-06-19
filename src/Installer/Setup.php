@@ -47,8 +47,13 @@ class Setup {
     $organization_name_fixed = Setup::dashesToCamelCase($organization_name, true);
     echo PHP_EOL;
 
-    echo 'Path for your fony configuration file: ['.__DIR__.'/src/config/config.ini]: ';
-    $config = Setup::getInput(__DIR__ . "/src/config/config.ini");
+    $vendorDir = dirname(realpath(Factory::getComposerFile()));
+    echo 'Path for your fony project: ['.$vendorDir.']: ';
+    $rootPath = Setup::getInput($vendorDir);
+    echo PHP_EOL;
+
+    echo 'Path for your fony configuration file: ['.$vendorDir.'/src/config/config.ini]: ';
+    $config = Setup::getInput($vendorDir . "/src/config/config.ini");
     echo PHP_EOL;
 
     $configurer = new ConfigurationConfigurer($config);
@@ -145,11 +150,8 @@ class Setup {
     $userMgmt = new UserCreation();
     $userMgmt->create($client, $secret_key, $username, $password, $secret);
 
-    //Create folder structure
-    $rootPath = dirname(__FILE__);
-    echo dirname(__FILE__);
-    $builder = new PathBuilder(dirname(__FILE__), $site_url, $namespace, $config);
-
+    $builder = new PathBuilder($rootPath, $site_url, $namespace, $config);
+    $builder->buildInitialTree(false);
     //var_dump($event->getArguments());
   }
 
