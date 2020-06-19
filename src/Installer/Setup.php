@@ -72,8 +72,8 @@ class Setup {
     $configurer->setField('fony.file_url', $file_url);
     echo PHP_EOL;
 
-    echo 'Internal path of your API assets: ['.__DIR__.'/assets/]: ';
-    $file_path = Setup::getInput(__DIR__.'/assets/');
+    echo 'Internal path of your API assets: ['.$vendorDir.'/assets/]: ';
+    $file_path = Setup::getInput($vendorDir.'/assets/');
     $configurer->changeGroup('fony');
     $configurer->setField('fony.file_path', $file_path);
     echo PHP_EOL;

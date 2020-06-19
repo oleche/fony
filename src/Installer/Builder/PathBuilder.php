@@ -49,14 +49,14 @@ class PathBuilder{
 
   private function buildHtaccess(){
     $filename = $this->rootPath."/.htaccess";
-    $file = file_get_contents('templates/htaccess.tpl');
+    $file = file_get_contents(dirname(__FILE__) . 'templates/htaccess.tpl');
     $file = str_replace("{PROJECTBASEPATH}", $this->basePath, $file);
     file_put_contents($filename,$file);
   }
 
   private function buildApi(){
     $filename = $this->rootPath."/api.php";
-    $file = file_get_contents('templates/api.tpl');
+    $file = file_get_contents(dirname(__FILE__) . 'templates/api.tpl');
     $file = str_replace("{PROJECTNAMESPACE}", $this->namespace, $file);
     $file = str_replace("{PROJECTCONFIGFILE}", $this->config, $file);
     file_put_contents($filename,$file);
@@ -64,7 +64,7 @@ class PathBuilder{
 
   private function buildBasicRouter(){
     $filename = $this->rootPath."/src/router.php";
-    $file = file_get_contents('templates/router.tpl');
+    $file = file_get_contents(dirname(__FILE__) . 'templates/router.tpl');
     $file = str_replace("{PROJECTNAMESPACE}", $this->namespace, $file);
     $file = str_replace("{CUSTOM_ACTIONS}", '', $file);
     $file = str_replace("{CUSTOM_ENDPOINTS}", '', $file);
