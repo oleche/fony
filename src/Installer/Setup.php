@@ -67,7 +67,7 @@ class Setup {
     echo PHP_EOL;
 
     echo 'PATH of your API: '.$site_url.'[/v1/]: ';
-    $site_internal_path = Setup::getInput("\/v1\/");
+    $site_internal_path = Setup::getInput('/v1/');
     echo PHP_EOL;
 
     echo 'URL of your API Assets: [assets.test.com]: ';
@@ -144,6 +144,7 @@ class Setup {
       $dbmaintenance = new DatabaseMaintenance();
       $dbmaintenance->create();
     }
+    echo PHP_EOL;
 
     $namespace = $organization_name_fixed.'\\'.$project_name_fixed;
     echo 'Write your application namespace: ['.$namespace.']: ';
@@ -157,6 +158,12 @@ class Setup {
     $builder = new PathBuilder($rootPath, $site_internal_path, $namespace, $config);
     $builder->buildInitialTree(false);
     //var_dump($event->getArguments());
+    echo PHP_EOL;
+    echo 'DONE - Have fun using Fony-PHP. Please submit issues to: https://github.com/oleche/fony/issues';
+    echo PHP_EOL;
+    echo 'For documentation go to: https://github.com/oleche/fony/wiki';
+    echo PHP_EOL;
+    echo 'Please support if you like to: https://ko-fi.com/geekcow';
   }
 
   public static function getInput($default = ""){
