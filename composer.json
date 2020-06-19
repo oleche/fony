@@ -5,7 +5,7 @@
     "license": "Apache-2.0",
     "keywords": ["fony", "fony-core", "api"],
     "homepage": "https://github.com/oleche/fony",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "authors": [
         {
             "name": "Oscar Leche",
@@ -28,7 +28,7 @@
     },
     "scripts": {
         "auto-scripts": {
-          "setup": "Geekcow\\Fony\\Installer\\Setup::init"
+          "setup-fony": "Geekcow\\Fony\\Installer\\Setup::init"
         },
         "post-install-cmd": [
             "@auto-scripts"
@@ -37,6 +37,6 @@
             "@auto-scripts"
         ],
         "create-core-user": "Geekcow\\Fony\\Installer\\UserCreation::createCore",
-        "setup": "Geekcow\\Fony\\Installer\\Setup::init"
+        "setup-fony": "Geekcow\\Fony\\Installer\\Setup::init"
     }
 }
