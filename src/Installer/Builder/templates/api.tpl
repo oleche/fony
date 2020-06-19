@@ -11,7 +11,7 @@ if (!array_key_exists('HTTP_ORIGIN', $_SERVER)) {
 }
 
 try {
-  $API = new Router($_REQUEST['request'], $_SERVER['HTTP_ORIGIN'], {PROJECTCONFIGFILE});
+  $API = new Router($_REQUEST['request'], $_SERVER['HTTP_ORIGIN'], '{PROJECTCONFIGFILE}');
   echo $API->processAPI();
 } catch (Exception $e) {
   echo json_encode(Array('error' => $e->getMessage()));
