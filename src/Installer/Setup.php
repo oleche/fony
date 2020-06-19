@@ -66,6 +66,10 @@ class Setup {
     $configurer->setField('fony.site_url', $site_url);
     echo PHP_EOL;
 
+    echo 'PATH of your API: '.$site_url.'[/v1/]: ';
+    $site_internal_path = Setup::getInput("\/v1\/");
+    echo PHP_EOL;
+
     echo 'URL of your API Assets: [assets.test.com]: ';
     $file_url = Setup::getInput("assets.test.com");
     $configurer->changeGroup('fony');
@@ -150,7 +154,7 @@ class Setup {
     $userMgmt = new UserCreation();
     $userMgmt->create($client, $secret_key, $username, $password, $secret);
 
-    $builder = new PathBuilder($rootPath, $site_url, $namespace, $config);
+    $builder = new PathBuilder($rootPath, $site_internal_path, $namespace, $config);
     $builder->buildInitialTree(false);
     //var_dump($event->getArguments());
   }
