@@ -1,8 +1,8 @@
 <?php
-/* Auth Utils
+/* Fony Setup Tool
  * Developed by OSCAR LECHE
  * V.1.0
- * DESCRIPTION: Authentication support for token generation and general authentication
+ * DESCRIPTION: Setup tool for Fony PHP
  */
 namespace Geekcow\Fony\Installer;
 
@@ -13,6 +13,7 @@ use Composer\Installer\PackageEvent;
 use Composer\Factory;
 use Composer\IO\NullIO;
 use Geekcow\Fony\Installer\User\UserCreation;
+use Geekcow\Fony\Installer\Builder\PathBuilder;
 use Geekcow\Fony\Installer\User\DatabaseMaintenance;
 use Geekcow\Fony\Installer\ConfigurationConfigurer;
 
@@ -38,6 +39,12 @@ class Setup {
 
     echo 'Name of your project: [fony-project]: ';
     $project_name = Setup::getInput("fony-project");
+    $project_name_fixed = Setup::dashesToCamelCase($project_name, true);
+    echo PHP_EOL;
+
+    echo 'Name of your organizatoin: [fony-organization]: ';
+    $organization_name = Setup::getInput("fony-organization");
+    $organization_name_fixed = Setup::dashesToCamelCase($organization_name, true);
     echo PHP_EOL;
 
     echo 'Path for your fony configuration file: ['.__DIR__.'/src/config/config.ini]: ';
@@ -78,8 +85,8 @@ class Setup {
     echo 'DB password: [r00t]: ';
     $db_password = Setup::getInput("r00t");
     echo PHP_EOL;
-    echo 'database: ['.Setup::dashesToCamelCase($project_name).']: ';
-    $database = Setup::getInput(Setup::dashesToCamelCase($project_name));
+    echo 'database: ['.$project_name_fixed.']: ';
+    $database = Setup::getInput($project_name_fixed);
     echo PHP_EOL;
     $configurer->changeGroup('dbcore');
     $configurer->setField('dbcore.server', $db_server);
@@ -129,11 +136,19 @@ class Setup {
       $dbmaintenance->create();
     }
 
+    $namespace = $organization_name_fixed.'\\'.$project_name_fixed;
+    echo 'Write your application namespace: ['.$namespace.']: ';
+    $namespace = Setup::getInput($namespace);
+    echo PHP_EOL;
+
     //Create user
     $userMgmt = new UserCreation();
     $userMgmt->create($client, $secret_key, $username, $password, $secret);
 
     //Create folder structure
+    $rootPath = dirname(__FILE__);
+    echo dirname(__FILE__);
+    $builder = new PathBuilder(dirname(__FILE__), $site_url, $namespace, $config);
 
     //var_dump($event->getArguments());
   }

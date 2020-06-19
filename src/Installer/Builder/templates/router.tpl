@@ -8,6 +8,7 @@ class Router extends FonyApi{
   public function __construct($request, $origin, $config_file) {
     parent::__construct($request, $origin, $config_file);
 
+    {CUSTOM_ACTIONS}
     $this->setAllowedCoreRoles(AllowCore::ADMINISTRATOR());
   }
 
@@ -19,6 +20,8 @@ class Router extends FonyApi{
       return "Invalid Method";
     }
   }
+
+  {CUSTOM_ENDPOINTS}
 }
 
 ?>
