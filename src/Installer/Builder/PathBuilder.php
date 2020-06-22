@@ -73,7 +73,7 @@ class PathBuilder{
   }
 
   private function buildInternalHtaccess(){
-    $filename = $this->rootPath."src/.htaccess";
+    $filename = $this->rootPath."/src/.htaccess";
     $file = file_get_contents(dirname(__FILE__) . '/templates/htaccess-internal.tpl');
     file_put_contents($filename,$file);
   }
