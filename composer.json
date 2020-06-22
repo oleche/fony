@@ -36,7 +36,7 @@
         "post-update-cmd": [
             "@auto-scripts"
         ],
-        "create-core-user": "Geekcow\\Fony\\Installer\\UserCreation::createCore",
+        "user-maintenance": "Geekcow\\Fony\\Installer\\UserUpdate::updateCore",
         "setup-fony": "Geekcow\\Fony\\Installer\\Setup::init"
     }
 }

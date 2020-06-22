@@ -10,11 +10,12 @@ use Composer\Script\Event;
 use Composer\Installer\PackageEvent;
 use Composer\Factory;
 use Composer\IO\NullIO;
+use Geekcow\FonyCore\Utils\ConfigurationUtils;
 
-class UserCreation {
+class UserUpdate {
 
 
-  public static function createCore(Event $event){
+  public static function updateCore(Event $event){
     $composer = Factory::create(new NullIo(), './composer.json', false);
 
     $logo = "  __
@@ -27,24 +28,36 @@ class UserCreation {
     echo $logo . PHP_EOL;
     echo $composer->getPackage()->getName() . PHP_EOL;
     echo "version: " . $composer->getPackage()->getVersion() . PHP_EOL;
-    echo 'Configuration script' . PHP_EOL;
+    echo 'User credentials reconfiguration Tool' . PHP_EOL;
     echo '====================' . PHP_EOL;
     echo PHP_EOL;
 
-    echo 'Write the location of your fony configuration file: ['.__DIR__.'/src/config/config.ini]: ';
-    $config = UserCreation::getInput(__DIR__ . "/src/config/config.ini");
+    $vendorDir = dirname(realpath(Factory::getComposerFile()));
+    echo 'Write the location of your fony configuration file: ['.$vendorDir.'/src/config/config.ini]: ';
+    $config = UserUpdate::getInput($vendorDir . "/src/config/config.ini");
     echo PHP_EOL;
 
-    echo 'Write the administrator email: [admin@test.com]: ';
-    $username = UserCreation::getInput("admin@test.com");
-    echo PHP_EOL;
+    if (file_exists($config)){
+      $configuration = ConfigurationUtils::getInstance($config);
 
-    $password = "";
-    while ($password == ""){
-      echo 'Write the administrator password: ';
-      $password = UserCreation::getInput();
+      echo 'Write the user email: [admin@test.com]: ';
+      $username = UserUpdate::getInput("admin@test.com");
+      echo PHP_EOL;
+
+      $password = "";
+      while ($password == ""){
+        echo 'Write the new password: ';
+        $password = UserUpdate::getInput();
+      }
+      echo PHP_EOL;
+
+      $userMgmt = new UserUpdate();
+      $userMgmt->updateUser($username, $password);
+
+    } else {
+      exit ('ERROR: Cannot continue, the configuration file does not exists');
     }
-    echo PHP_EOL;
+
 
     //var_dump($event->getArguments());
   }

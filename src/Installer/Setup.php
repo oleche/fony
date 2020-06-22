@@ -155,8 +155,23 @@ class Setup {
     $userMgmt = new UserCreation();
     $userMgmt->create($client, $secret_key, $username, $password, $secret);
 
+    //Creatre folder structure
     $builder = new PathBuilder($rootPath, $site_internal_path, $namespace, $config);
     $builder->buildInitialTree(false);
+
+    //Update the composer.json file
+    $jsonString = file_get_contents(realpath(Factory::getComposerFile()));
+    $data = json_decode($jsonString, true);
+    if (!in_array($data['scripts']){
+      if (!in_array($data['scripts']['setup-fony'])){
+        $data['scripts']['setup-fony'] = "echo 'You have already installed Fony'";
+      }
+      $data['scripts']['fony:update-user'] = "Geekcow\\Fony\\Installer\\UserUpdate::updateCore";
+      $newJsonString = json_encode($data);
+      file_put_contents(realpath(Factory::getComposerFile()), $newJsonString);
+    }
+    print_r($data);
+
     //var_dump($event->getArguments());
     echo PHP_EOL;
     echo 'DONE - Have fun using Fony-PHP. Please submit issues to: https://github.com/oleche/fony/issues';
@@ -164,6 +179,7 @@ class Setup {
     echo 'For documentation go to: https://github.com/oleche/fony/wiki';
     echo PHP_EOL;
     echo 'Please support if you like to: https://ko-fi.com/geekcow';
+    exit();
   }
 
   public static function getInput($default = ""){
