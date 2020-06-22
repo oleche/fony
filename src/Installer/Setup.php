@@ -162,8 +162,8 @@ class Setup {
     //Update the composer.json file
     $jsonString = file_get_contents(realpath(Factory::getComposerFile()));
     $data = json_decode($jsonString, true);
-    if (!in_array($data['scripts'])){
-      if (!in_array($data['scripts']['setup-fony'])){
+    if (!isset($data['scripts'])){
+      if (!isset($data['scripts']['setup-fony'])){
         $data['scripts']['setup-fony'] = "echo 'You have already installed Fony'";
       }
       $data['scripts']['fony:update-user'] = "Geekcow\\Fony\\Installer\\UserUpdate::updateCore";
