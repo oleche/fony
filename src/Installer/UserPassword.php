@@ -10,9 +10,11 @@ use Composer\Script\Event;
 use Composer\Installer\PackageEvent;
 use Composer\Factory;
 use Composer\IO\NullIO;
+use Geekcow\Fony\Installer\User\UserUpdate;
+use Geekcow\Fony\Installer\Tools\SetupTools;
 use Geekcow\FonyCore\Utils\ConfigurationUtils;
 
-class UserUpdate {
+class UserPassword {
 
 
   public static function updateCore(Event $event){
@@ -34,20 +36,20 @@ class UserUpdate {
 
     $vendorDir = dirname(realpath(Factory::getComposerFile()));
     echo 'Write the location of your fony configuration file: ['.$vendorDir.'/src/config/config.ini]: ';
-    $config = UserUpdate::getInput($vendorDir . "/src/config/config.ini");
+    $config = SetupTools::getInput($vendorDir . "/src/config/config.ini");
     echo PHP_EOL;
 
     if (file_exists($config)){
       $configuration = ConfigurationUtils::getInstance($config);
 
       echo 'Write the user email: [admin@test.com]: ';
-      $username = UserUpdate::getInput("admin@test.com");
+      $username = SetupTools::getInput("admin@test.com");
       echo PHP_EOL;
 
       $password = "";
       while ($password == ""){
         echo 'Write the new password: ';
-        $password = UserUpdate::getInput();
+        $password = SetupTools::getInput();
       }
       echo PHP_EOL;
 
@@ -58,19 +60,16 @@ class UserUpdate {
       exit ('ERROR: Cannot continue, the configuration file does not exists');
     }
 
+    //var_dump($event->getArguments());
+    echo PHP_EOL;
+    echo 'DONE - Have fun using Fony-PHP. Please submit issues to: https://github.com/oleche/fony/issues';
+    echo PHP_EOL;
+    echo 'For documentation go to: https://github.com/oleche/fony/wiki';
+    echo PHP_EOL;
+    echo 'Please support if you like to: https://ko-fi.com/geekcow';
+    exit();
 
     //var_dump($event->getArguments());
-  }
-
-  public static function getInput($default = ""){
-    $response = "";
-    $stdin = fopen('php://stdin', 'r');
-    $response = fgets($stdin);
-    fclose($stdin);
-    if (trim($response) == ""){
-      $response = $default;
-    }
-    return $response;
   }
 }
 

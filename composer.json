@@ -5,7 +5,7 @@
     "license": "Apache-2.0",
     "keywords": ["fony", "fony-core", "api"],
     "homepage": "https://github.com/oleche/fony",
-    "version": "0.0.9",
+    "version": "0.0.10",
     "authors": [
         {
             "name": "Oscar Leche",
@@ -36,7 +36,7 @@
         "post-update-cmd": [
             "@auto-scripts"
         ],
-        "user-maintenance": "Geekcow\\Fony\\Installer\\UserUpdate::updateCore",
+        "fony:update-user-password": "Geekcow\\Fony\\Installer\\UserPassword::updateCore",
         "setup-fony": "Geekcow\\Fony\\Installer\\Setup::init"
     }
 }
