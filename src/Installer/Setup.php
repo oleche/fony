@@ -162,16 +162,15 @@ class Setup {
     //Update the composer.json file
     $jsonString = file_get_contents(realpath(Factory::getComposerFile()));
     $data = json_decode($jsonString, true);
-    if (!isset($data['scripts'])){
-      if (!isset($data['scripts']['setup-fony'])){
+    if (isset($data['scripts'])){
+      if (isset($data['scripts']['setup-fony'])){
         $data['scripts']['setup-fony'] = "echo 'You have already installed Fony'";
       }
       $data['scripts']['fony:update-user'] = "Geekcow\\Fony\\Installer\\UserUpdate::updateCore";
       $newJsonString = json_encode($data);
       file_put_contents(realpath(Factory::getComposerFile()), $newJsonString);
     }
-    print_r($data);
-
+    
     //var_dump($event->getArguments());
     echo PHP_EOL;
     echo 'DONE - Have fun using Fony-PHP. Please submit issues to: https://github.com/oleche/fony/issues';
