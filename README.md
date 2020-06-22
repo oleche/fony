@@ -23,6 +23,9 @@ $ composer require geekcow/fony
 $ composer run-script setup-fony
 ```
 
+## Requirements:
+Currently Fony API only has support for `apache` and `mysql`. However there is work in progress for `nginx` and multiple DBMS (via dbCore)
+
 ## Notes:
 June 2020: There is still a lot of work to do.
 * Unit tests are not done
