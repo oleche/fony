@@ -19,6 +19,10 @@ class ConfigurationConfigurer{
     $this->currentGroup = $group;
   }
 
+  public function getConfiguration(){
+    return $this->config;
+  }
+
   public function setField($key, $value){
     if (!isset($this->fieldsMap[$this->currentGroup])){
       $this->fieldsMap[$this->currentGroup] = array();

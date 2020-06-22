@@ -15,9 +15,9 @@ class SetupTools {
     if (trim($response) == ""){
       $response = $default;
     }
-    return $response;
+    return trim($response);
   }
-  
+
   public static function dashesToCamelCase($string, $capitalizeFirstCharacter = false)
   {
 

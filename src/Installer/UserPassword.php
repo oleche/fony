@@ -6,13 +6,15 @@
  */
 namespace Geekcow\Fony\Installer;
 
+define('MY_DOC_ROOT', __DIR__);
+
 use Composer\Script\Event;
 use Composer\Installer\PackageEvent;
 use Composer\Factory;
 use Composer\IO\NullIO;
 use Geekcow\Fony\Installer\User\UserUpdate;
 use Geekcow\Fony\Installer\Tools\SetupTools;
-use Geekcow\FonyCore\Utils\ConfigurationUtils;
+use Geekcow\Fony\Installer\ConfigurationConfigurer;
 
 class UserPassword {
 
@@ -39,9 +41,12 @@ class UserPassword {
     $config = SetupTools::getInput($vendorDir . "/src/config/config.ini");
     echo PHP_EOL;
 
-    if (file_exists($config)){
-      $configuration = ConfigurationUtils::getInstance($config);
-
+    if (realpath(dirname($config)) === false){
+      exit ('ERROR: Cannot continue, the configuration file does not exists');
+    } else {
+      echo $config;
+      $configurer = new ConfigurationConfigurer($config);
+      //print_r($configurer);
       echo 'Write the user email: [admin@test.com]: ';
       $username = SetupTools::getInput("admin@test.com");
       echo PHP_EOL;
@@ -56,8 +61,6 @@ class UserPassword {
       $userMgmt = new UserUpdate();
       $userMgmt->updateUser($username, $password);
 
-    } else {
-      exit ('ERROR: Cannot continue, the configuration file does not exists');
     }
 
     //var_dump($event->getArguments());
