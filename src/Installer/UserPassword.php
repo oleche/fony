@@ -44,7 +44,6 @@ class UserPassword {
     if (realpath(dirname($config)) === false){
       exit ('ERROR: Cannot continue, the configuration file does not exists');
     } else {
-      echo $config;
       $configurer = new ConfigurationConfigurer($config);
       //print_r($configurer);
       echo 'Write the user email: [admin@test.com]: ';
