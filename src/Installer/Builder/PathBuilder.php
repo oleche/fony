@@ -30,7 +30,7 @@ class PathBuilder{
     Initial tree:
     .htaccess
     api.php
-    /str
+    /src
     -> router.php
     -> .htaccess
     */
@@ -41,6 +41,7 @@ class PathBuilder{
     }else{
       $this->buildBasicRouter();
     }
+    $this->buildInternalHtaccess();
   }
 
   private function buildDemoTree(){
@@ -68,6 +69,12 @@ class PathBuilder{
     $file = str_replace("{PROJECTNAMESPACE}", $this->namespace, $file);
     $file = str_replace("{CUSTOM_ACTIONS}", '', $file);
     $file = str_replace("{CUSTOM_ENDPOINTS}", '', $file);
+    file_put_contents($filename,$file);
+  }
+
+  private function buildInternalHtaccess(){
+    $filename = $this->rootPath."src/.htaccess";
+    $file = file_get_contents(dirname(__FILE__) . '/templates/htaccess-internal.tpl');
     file_put_contents($filename,$file);
   }
 
