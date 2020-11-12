@@ -25,7 +25,7 @@ class PathBuilder{
     }
   }
 
-  public function buildInitialTree($demo = false){
+  public function buildInitialTree($auth = false){
     /*
     Initial tree:
     .htaccess
@@ -36,10 +36,10 @@ class PathBuilder{
     */
     $this->buildHtaccess();
     $this->buildApi();
-    if ($demo){
+    if ($auth){
       $this->buildRouter();
     }else{
-      $this->buildBasicRouter();
+      $this->buildAuthenticationRouter();
     }
     $this->buildInternalHtaccess();
   }
@@ -67,8 +67,26 @@ class PathBuilder{
     $filename = $this->rootPath."/src/router.php";
     $file = file_get_contents(dirname(__FILE__) . '/templates/router.tpl');
     $file = str_replace("{PROJECTNAMESPACE}", $this->namespace, $file);
+    $file = str_replace("{CUSTOM_USES}", '', $file);
     $file = str_replace("{CUSTOM_ACTIONS}", '', $file);
     $file = str_replace("{CUSTOM_ENDPOINTS}", '', $file);
+    $file = str_replace("{CUSTOM_PRESTAGING}", '', $file);
+    file_put_contents($filename,$file);
+  }
+
+  private function buildAuthenticationRouter(){
+    $filename = $this->rootPath."/src/router.php";
+    $file = file_get_contents(dirname(__FILE__) . '/templates/router.tpl');
+    $actions = file_get_contents(dirname(__FILE__) . '/templates/AuthServer/authActions.tpl');
+    $actions = 'switch($this->endpoint){'.PHP_EOL.$actions.PHP_EOL.'}';
+    $endpoints = file_get_contents(dirname(__FILE__) . '/templates/AuthServer/authEndpoints.tpl');
+    $prestaging = file_get_contents(dirname(__FILE__) . '/templates/AuthServer/authPrestaging.tpl');
+    $uses = file_get_contents(dirname(__FILE__) . '/templates/AuthServer/authUses.tpl');
+    $file = str_replace("{PROJECTNAMESPACE}", $this->namespace, $file);
+    $file = str_replace("{CUSTOM_USES}", $uses, $file);
+    $file = str_replace("{CUSTOM_ACTIONS}", $actions, $file);
+    $file = str_replace("{CUSTOM_ENDPOINTS}", $endpoints, $file);
+    $file = str_replace("{CUSTOM_PRESTAGING}", $prestaging, $file);
     file_put_contents($filename,$file);
   }
 

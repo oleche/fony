@@ -51,7 +51,7 @@ class DatabaseMaintenance{
     "14" => array("endpoint" => 'v1/user/:id', "field" => 'phone', "id_type" => 1, "sample" => '', "internal" => 0, "required" => 0, "blank" => 1, "scopes" => '', "method" => 'PUT'),
     "15" => array("endpoint" => 'v1/user/:id/password', "field" => 'old_password', "id_type" => 5, "sample" => '', "internal" => 0, "required" => 0, "blank" => 1, "scopes" => '', "method" => 'PUT'),
     "16" => array("endpoint" => 'v1/user/:id/password', "field" => 'password', "id_type" => 5, "sample" => '', "internal" => 0, "required" => 0, "blank" => 1, "scopes" => '', "method" => 'PUT'),
-
+    "17" => array("endpoint" => 'validate', "field" => 'token', "id_type" => 1, "sample" => '', "internal" => 0, "required" => 0, "blank" => 1, "scopes" => '', "method" => 'POST')
   );
 
   private $asset_type;
@@ -74,6 +74,13 @@ class DatabaseMaintenance{
   }
 
   public function create(){
+    $this->createFieldTypes();
+    echo '.';
+    $this->createAssetTypes();
+    echo '.';
+  }
+
+  public function createAuthenticated(){
     $this->createUserTypes();
     echo '.';
     $this->createFieldTypes();

@@ -107,58 +107,108 @@ class Setup {
 
     echo 'Application information' . PHP_EOL;
     echo '====================' . PHP_EOL;
-    $secret = "";
-    while ($secret == ""){
-      echo 'Write the application secret word: ';
-      $secret = SetupTools::getInput();
+    echo 'Is this an authentication app (y/Y/n/N): [n]: ';
+    $auth_app = SetupTools::getInput("n");
+    $auth_app = trim(strtolower($build_default));
+    echo PHP_EOL;
+
+    if ($auth_app == "y"){
+      $secret = "";
+      while ($secret == ""){
+        echo 'Write the application secret word: ';
+        $secret = SetupTools::getInput();
+        $configurer->changeGroup('fony');
+        $configurer->setField('fony.app_secret', $secret);
+      }
+
+      echo 'Write the administrator email: [admin@test.com]: ';
+      $username = SetupTools::getInput("admin@test.com");
+      echo PHP_EOL;
+
+      $encodedUser = md5($username);
+      $client = sha1($encodedUser.$username.date("Y-m-d H:i:s"));
+  		$secret_key = sha1($client.$secret);
       $configurer->changeGroup('fony');
-      $configurer->setField('fony.app_secret', $secret);
+      $configurer->setField('fony.user_client', $client);
+      $configurer->setField('fony.user_secret', $secret_key);
+
+      $configurer->export();
+
+      $password = "";
+      while ($password == ""){
+        echo 'Write the administrator password: ';
+        $password = SetupTools::getInput();
+      }
+      echo PHP_EOL;
+
+      echo 'Build default database (y/Y/n/N): [y]: ';
+      $build_default = SetupTools::getInput("y");
+      $build_default = trim(strtolower($build_default));
+      echo PHP_EOL;
+
+      if ($build_default == "y"){
+        //create the default values in the database
+        $dbmaintenance = new DatabaseMaintenance();
+        $dbmaintenance->createAuthenticated();
+      }
+      echo PHP_EOL;
+    }else{
+      echo 'Write the oauth2 server location: []: ';
+      $authenticationServer = SetupTools::getInput("");
+      echo PHP_EOL;
+
+      echo 'Write the oauth2 token introspection endpoint: [/validate]: ';
+      $authenticationEndpoint = SetupTools::getInput("/validate");
+      echo PHP_EOL;
+
+      echo 'Write the application client: []: ';
+      $authenticationClient = SetupTools::getInput("");
+      echo PHP_EOL;
+
+      echo 'Write the application secret: []: ';
+      $authenticationSecret = SetupTools::getInput("");
+      echo PHP_EOL;
+
+      $configurer->changeGroup('fony');
+      $configurer->setField('fony.auth_method', 'oauth2');
+      $configurer->setField('fony.auth_server', $authenticationServer);
+      $configurer->setField('fony.auth_endpoint', $authenticationEndpoint);
+      $configurer->setField('fony.auth_client', $authenticationClient);
+      $configurer->setField('fony.auth_secret', $authenticationSecret);
+
+      $configurer->export();
+
+      echo 'Build default database (y/Y/n/N): [y]: ';
+      $build_default = SetupTools::getInput("y");
+      $build_default = trim(strtolower($build_default));
+      echo PHP_EOL;
+
+      if ($build_default == "y"){
+        //create the default values in the database
+        $dbmaintenance = new DatabaseMaintenance();
+        $dbmaintenance->create();
+      }
+      echo PHP_EOL;
     }
-
-    echo 'Write the administrator email: [admin@test.com]: ';
-    $username = SetupTools::getInput("admin@test.com");
-    echo PHP_EOL;
-
-    $encodedUser = md5($username);
-    $client = sha1($encodedUser.$username.date("Y-m-d H:i:s"));
-		$secret_key = sha1($client.$secret);
-    $configurer->changeGroup('fony');
-    $configurer->setField('fony.user_client', $client);
-    $configurer->setField('fony.user_secret', $secret_key);
-
-    $configurer->export();
-
-    $password = "";
-    while ($password == ""){
-      echo 'Write the administrator password: ';
-      $password = SetupTools::getInput();
-    }
-    echo PHP_EOL;
-
-    echo 'Build default database (y/Y/n/N): [y]: ';
-    $build_default = SetupTools::getInput("y");
-    $build_default = trim(strtolower($build_default));
-    echo PHP_EOL;
-
-    if ($build_default == "y"){
-      //create the default values in the database
-      $dbmaintenance = new DatabaseMaintenance();
-      $dbmaintenance->create();
-    }
-    echo PHP_EOL;
 
     $namespace = $organization_name_fixed.'\\'.$project_name_fixed;
     echo 'Write your application namespace: ['.$namespace.']: ';
     $namespace = SetupTools::getInput($namespace);
     echo PHP_EOL;
 
-    //Create user
-    $userMgmt = new UserCreation();
-    $userMgmt->create($client, $secret_key, $username, $password, $secret);
 
-    //Creatre folder structure
     $builder = new PathBuilder($rootPath, $site_internal_path, $namespace, $config);
-    $builder->buildInitialTree(false);
+
+    if ($auth_app == "y"){
+      //Create user
+      $userMgmt = new UserCreation();
+      $userMgmt->create($client, $secret_key, $username, $password, $secret);
+
+      //Creatre folder structure
+      $builder->buildInitialTree(true);
+    }else{
+      $builder->buildInitialTree(false);
+    }
 
     //Update the composer.json file
     $jsonString = file_get_contents(realpath(Factory::getComposerFile()));
@@ -167,7 +217,9 @@ class Setup {
       if (isset($data['scripts']['setup-fony'])){
         $data['scripts']['setup-fony'] = "echo 'You have already installed Fony'";
       }
-      $data['scripts']['fony:update-user-password'] = "Geekcow\\Fony\\Installer\\UserPassword::updateCore";
+      if ($auth_app == "y"){
+        $data['scripts']['fony:update-user-password'] = "Geekcow\\Fony\\Installer\\UserPassword::updateCore";
+      }
       $newJsonString = json_encode($data, JSON_PRETTY_PRINT);
       file_put_contents(realpath(Factory::getComposerFile()), $newJsonString);
     }
