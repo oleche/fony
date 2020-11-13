@@ -109,7 +109,7 @@ class Setup {
     echo '====================' . PHP_EOL;
     echo 'Is this an authentication app (y/Y/n/N): [n]: ';
     $auth_app = SetupTools::getInput("n");
-    $auth_app = trim(strtolower($build_default));
+    $auth_app = trim(strtolower($auth_app));
     echo PHP_EOL;
 
     if ($auth_app == "y"){
