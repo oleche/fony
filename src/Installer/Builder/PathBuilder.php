@@ -36,8 +36,8 @@ class PathBuilder{
     */
     $this->buildHtaccess();
     $this->buildApi();
-    if ($auth){
-      $this->buildRouter();
+    if (!$auth){
+      $this->buildBasicRouter();
     }else{
       $this->buildAuthenticationRouter();
     }
