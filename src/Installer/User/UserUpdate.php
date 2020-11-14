@@ -1,7 +1,7 @@
 <?php
 
 namespace Geekcow\Fony\Installer\User;
-use Geekcow\FonyCore\CoreModel\ApiUser;
+use Geekcow\FonyAuth\Model\ApiUser;
 
 class UserUpdate{
   private $user;

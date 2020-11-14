@@ -1,8 +1,8 @@
 <?php
 namespace Geekcow\Fony\Installer\User;
 use Geekcow\FonyCore\CoreModel\ApiForm;
-use Geekcow\FonyCore\CoreModel\ApiScope;
-use Geekcow\FonyCore\CoreModel\ApiUserType;
+use Geekcow\FonyAuth\Model\ApiScope;
+use Geekcow\FonyAuth\Model\ApiUserType;
 use Geekcow\FonyCore\CoreModel\ApiFieldType;
 use Geekcow\FonyCore\CoreModel\ApiAssetType;
 

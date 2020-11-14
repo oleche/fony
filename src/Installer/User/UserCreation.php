@@ -1,11 +1,11 @@
 <?php
 
 namespace Geekcow\Fony\Installer\User;
-use Geekcow\FonyCore\CoreModel\ApiUser;
-use Geekcow\FonyCore\CoreModel\ApiClient;
-use Geekcow\FonyCore\CoreModel\ApiUserType;
-use Geekcow\FonyCore\CoreModel\ApiUserAsoc;
-use Geekcow\FonyCore\CoreModel\ApiClientScope;
+use Geekcow\FonyAuth\Model\ApiUser;
+use Geekcow\FonyAuth\Model\ApiClient;
+use Geekcow\FonyAuth\Model\ApiUserType;
+use Geekcow\FonyAuth\Model\ApiUserAsoc;
+use Geekcow\FonyAuth\Model\ApiClientScope;
 
 class UserCreation{
   private $user;
