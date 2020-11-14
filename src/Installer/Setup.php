@@ -17,6 +17,7 @@ use Geekcow\Fony\Installer\Builder\PathBuilder;
 use Geekcow\Fony\Installer\User\DatabaseMaintenance;
 use Geekcow\Fony\Installer\Tools\SetupTools;
 use Geekcow\Fony\Installer\ConfigurationConfigurer;
+use Geekcow\FonyAuth\Utils\ConfigurationUtils;
 
 class Setup {
 
@@ -133,6 +134,7 @@ class Setup {
       $configurer->setField('fony.user_secret', $secret_key);
 
       $configurer->export();
+      $dummy = ConfigurationUtils::getInstance($config);
 
       $password = "";
       while ($password == ""){
