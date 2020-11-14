@@ -1,1 +1,1 @@
-$sessionInstance = SessionUtils::getInstance(new AuthUtils());
+$sessionInstance = SessionUtils::getInstance(new AuthUtils($config_file));

@@ -213,6 +213,11 @@ class Setup {
     //Update the composer.json file
     $jsonString = file_get_contents(realpath(Factory::getComposerFile()));
     $data = json_decode($jsonString, true);
+    if (!isset($data['autoload'])){
+      $data['autoload'] = array();
+      $data['autoload']['psr-4'] = array();
+      $data['autoload']['psr-4']['FonyOrganization\\Fonytest\\'] = 'src/';
+    }
     if (isset($data['scripts'])){
       if (isset($data['scripts']['setup-fony'])){
         $data['scripts']['setup-fony'] = "echo 'You have already installed Fony'";

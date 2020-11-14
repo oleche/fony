@@ -26,6 +26,18 @@ $ composer run-script setup-fony
 ## Requirements:
 Currently Fony API only has support for `apache` and `mysql`. However there is work in progress for `nginx` and multiple DBMS (via dbCore)
 
+Also need to have installed `mod_rewrite` module for Apache
+
+Additionally, need to have the following changes in your directory configuration for your virtual server in Apache:
+```
+  <Directory /var/www/yourfolderlocationforyourproject>
+      Options FollowSymLinks
+      AllowOverride All
+      Require all granted
+  </Directory>
+```
+Note we removed the `Indexes` option from the directory, in order to not display the tree view.
+
 ## Notes:
 June 2020: There is still a lot of work to do.
 * Unit tests are not done
