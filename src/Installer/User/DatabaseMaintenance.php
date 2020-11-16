@@ -30,13 +30,14 @@ class DatabaseMaintenance{
     "8" => array("name" => 'username', "regex" => '/^[a-z0-9_-]{3,16}$/'),
     "9" => array("name" => 'boolean', "regex" => '/^[1|0]$/'),
     "10" => array("name" => 'date', "regex" => '/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/'),
-    "11" => array("name" => 'string and empty', "regex" => '/^$|^.{1,1500}$/')
+    "11" => array("name" => 'string and empty', "regex" => '/^$|^.{1,1500}$/'),
+    "12" => array("name" => 'grant_type', "regex" => '/^(password|client_credentials|refresh_token)$/')
   );
 
   private $form;
   private const DEFAULT_FORMS = array(
-    "1" => array("endpoint" => 'login', "field" => 'username', "id_type" => 4, "sample" => '', "internal" => 0, "required" => 1, "blank" => 1, "scopes" => '', "method" => 'POST'),
-    "2" => array("endpoint" => 'login', "field" => 'password', "id_type" => 1, "sample" => '', "internal" => 0, "required" => 1, "blank" => 1, "scopes" => '', "method" => 'POST'),
+    "1" => array("endpoint" => 'v1/authenticate', "field" => 'username', "id_type" => 4, "sample" => '', "internal" => 0, "required" => 0, "blank" => 1, "scopes" => '', "method" => 'POST'),
+    "2" => array("endpoint" => 'v1/authenticate', "field" => 'password', "id_type" => 1, "sample" => '', "internal" => 0, "required" => 0, "blank" => 1, "scopes" => '', "method" => 'POST'),
     "3" => array("endpoint" => 'v1/user', "field" => 'name', "id_type" => 1, "sample" => '',"internal" =>  0, "required" => 1, "blank" => 1, "scopes" => '', "method" => 'POST'),
     "4" => array("endpoint" => 'v1/user', "field" => 'lastname', "id_type" => 11, "sample" => '', "internal" => 0, "required" => 1, "blank" => 0, "scopes" => '', "method" => 'POST'),
     "5" => array("endpoint" => 'v1/user', "field" => 'type', "id_type" => 2, "sample" => '', "internal" => 0, "required" => 1, "blank" => 1, "scopes" => '', "method" => 'POST'),
@@ -51,7 +52,13 @@ class DatabaseMaintenance{
     "14" => array("endpoint" => 'v1/user/:id', "field" => 'phone', "id_type" => 1, "sample" => '', "internal" => 0, "required" => 0, "blank" => 1, "scopes" => '', "method" => 'PUT'),
     "15" => array("endpoint" => 'v1/user/:id/password', "field" => 'old_password', "id_type" => 5, "sample" => '', "internal" => 0, "required" => 0, "blank" => 1, "scopes" => '', "method" => 'PUT'),
     "16" => array("endpoint" => 'v1/user/:id/password', "field" => 'password', "id_type" => 5, "sample" => '', "internal" => 0, "required" => 0, "blank" => 1, "scopes" => '', "method" => 'PUT'),
-    "17" => array("endpoint" => 'validate', "field" => 'token', "id_type" => 1, "sample" => '', "internal" => 0, "required" => 0, "blank" => 1, "scopes" => '', "method" => 'POST')
+    "17" => array("endpoint" => 'v1/validate', "field" => 'token', "id_type" => 1, "sample" => '', "internal" => 0, "required" => 0, "blank" => 1, "scopes" => '', "method" => 'POST'),
+    "18" => array("endpoint" => 'v1/authenticate', "field" => 'grant_type', "id_type" => 12, "sample" => '', "internal" => 0, "required" => 1, "blank" => 1, "scopes" => '', "method" => 'POST'),
+    "18" => array("endpoint" => 'v1/authenticate', "field" => 'scope', "id_type" => 1, "sample" => '', "internal" => 0, "required" => 1, "blank" => 1, "scopes" => '', "method" => 'POST'),
+    "18" => array("endpoint" => 'v1/authenticate/refresh', "field" => 'grant_type', "id_type" => 12, "sample" => '', "internal" => 0, "required" => 1, "blank" => 1, "scopes" => '', "method" => 'POST'),
+    "18" => array("endpoint" => 'v1/authenticate/refresh', "field" => 'refresh_token', "id_type" => 1, "sample" => '', "internal" => 0, "required" => 1, "blank" => 1, "scopes" => '', "method" => 'POST'),
+    "18" => array("endpoint" => 'v1/authenticate/refresh', "field" => 'client_id', "id_type" => 1, "sample" => '', "internal" => 0, "required" => 1, "blank" => 1, "scopes" => '', "method" => 'POST'),
+    "18" => array("endpoint" => 'v1/authenticate/refresh', "field" => 'client_secret', "id_type" => 1, "sample" => '', "internal" => 0, "required" => 1, "blank" => 1, "scopes" => '', "method" => 'POST')
   );
 
   private $asset_type;

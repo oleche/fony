@@ -218,7 +218,7 @@ class Setup {
     if (!isset($data['autoload'])){
       $data['autoload'] = array();
       $data['autoload']['psr-4'] = array();
-      $data['autoload']['psr-4']['FonyOrganization\\Fonytest\\'] = 'src/';
+      $data['autoload']['psr-4'][$namespace] = 'src/';
     }
     if (isset($data['scripts'])){
       if (isset($data['scripts']['setup-fony'])){
