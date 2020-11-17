@@ -4,10 +4,10 @@
  * @return JSON Authenticated response with token
  *
  */
-protected function auth(){
+protected function authenticate(){
   switch ($this->method) {
    case 'POST':
-     $this->core_action->doPost($_SERVER['HTTP_Authorization'], $_POST, $this->method);
+     $this->core_action->doPost($_SERVER['HTTP_Authorization'], $_POST, $this->verb);
      $this->response_code = $this->core_action->response['code'];
      return $this->core_action->response;
      break;
@@ -19,6 +19,29 @@ protected function auth(){
      return "Invalid method";
      break;
   }
+}
+
+/**
+* Executes the token validation endpoint.
+*
+* @return JSON Authenticated response with token
+*
+*/
+protected function validate(){
+switch ($this->method) {
+ case 'POST':
+   $this->core_action->doPost($_SERVER['HTTP_Authorization'], $_POST);
+   $this->response_code = $this->core_action->response['code'];
+   return $this->core_action->response;
+   break;
+ case 'OPTIONS':
+   exit(0);
+   break;
+ default:
+   $this->response_code = 405;
+   return "Invalid method";
+   break;
+}
 }
 
 /**

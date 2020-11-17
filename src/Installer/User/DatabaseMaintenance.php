@@ -54,11 +54,9 @@ class DatabaseMaintenance{
     "16" => array("endpoint" => 'v1/user/:id/password', "field" => 'password', "id_type" => 5, "sample" => '', "internal" => 0, "required" => 0, "blank" => 1, "scopes" => '', "method" => 'PUT'),
     "17" => array("endpoint" => 'v1/validate', "field" => 'token', "id_type" => 1, "sample" => '', "internal" => 0, "required" => 0, "blank" => 1, "scopes" => '', "method" => 'POST'),
     "18" => array("endpoint" => 'v1/authenticate', "field" => 'grant_type', "id_type" => 12, "sample" => '', "internal" => 0, "required" => 1, "blank" => 1, "scopes" => '', "method" => 'POST'),
-    "18" => array("endpoint" => 'v1/authenticate', "field" => 'scope', "id_type" => 1, "sample" => '', "internal" => 0, "required" => 1, "blank" => 1, "scopes" => '', "method" => 'POST'),
-    "18" => array("endpoint" => 'v1/authenticate/refresh', "field" => 'grant_type', "id_type" => 12, "sample" => '', "internal" => 0, "required" => 1, "blank" => 1, "scopes" => '', "method" => 'POST'),
-    "18" => array("endpoint" => 'v1/authenticate/refresh', "field" => 'refresh_token', "id_type" => 1, "sample" => '', "internal" => 0, "required" => 1, "blank" => 1, "scopes" => '', "method" => 'POST'),
-    "18" => array("endpoint" => 'v1/authenticate/refresh', "field" => 'client_id', "id_type" => 1, "sample" => '', "internal" => 0, "required" => 1, "blank" => 1, "scopes" => '', "method" => 'POST'),
-    "18" => array("endpoint" => 'v1/authenticate/refresh', "field" => 'client_secret', "id_type" => 1, "sample" => '', "internal" => 0, "required" => 1, "blank" => 1, "scopes" => '', "method" => 'POST')
+    "19" => array("endpoint" => 'v1/authenticate', "field" => 'scope', "id_type" => 1, "sample" => '', "internal" => 0, "required" => 1, "blank" => 1, "scopes" => '', "method" => 'POST'),
+    "20" => array("endpoint" => 'v1/authenticate/refresh', "field" => 'grant_type', "id_type" => 12, "sample" => '', "internal" => 0, "required" => 1, "blank" => 1, "scopes" => '', "method" => 'POST'),
+    "21" => array("endpoint" => 'v1/authenticate/refresh', "field" => 'refresh_token', "id_type" => 1, "sample" => '', "internal" => 0, "required" => 1, "blank" => 1, "scopes" => '', "method" => 'POST')
   );
 
   private $asset_type;
