@@ -163,6 +163,10 @@ class Setup {
       $authenticationEndpoint = SetupTools::getInput("/validate");
       echo PHP_EOL;
 
+      echo 'Write the oauth2 token refresh endpoint: [/refresh]: ';
+      $refreshEndpoint = SetupTools::getInput("/refresh");
+      echo PHP_EOL;
+
       echo 'Write the application client: []: ';
       $authenticationClient = SetupTools::getInput("");
       echo PHP_EOL;
@@ -172,11 +176,12 @@ class Setup {
       echo PHP_EOL;
 
       $configurer->changeGroup('fony');
-      $configurer->setField('fony.auth_method', 'oauth2');
-      $configurer->setField('fony.auth_server', $authenticationServer);
-      $configurer->setField('fony.auth_endpoint', $authenticationEndpoint);
-      $configurer->setField('fony.auth_client', $authenticationClient);
-      $configurer->setField('fony.auth_secret', $authenticationSecret);
+      $configurer->setField('fony.auth_method', 'Oauth');
+      $configurer->setField('fony.auth_url', $authenticationServer);
+      $configurer->setField('fony.auth_refresh', $refreshEndpoint);
+      $configurer->setField('fony.auth_validate', $authenticationEndpoint);
+      $configurer->setField('fony.user_client', $authenticationClient);
+      $configurer->setField('fony.user_secret', $authenticationSecret);
 
       $configurer->export();
 
