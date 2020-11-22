@@ -134,6 +134,7 @@ class Setup {
       $configurer->setField('fony.user_secret', $secret_key);
 
       $configurer->export();
+      //dummy needs to be created in order to initialize the configuration in the setup instance
       $dummy = ConfigurationUtils::getInstance($config);
 
       $password = "";
@@ -184,6 +185,8 @@ class Setup {
       $configurer->setField('fony.user_secret', $authenticationSecret);
 
       $configurer->export();
+      //dummy needs to be created in order to initialize the configuration in the setup instance
+      $dummy = ConfigurationUtils::getInstance($config);
 
       echo 'Build default database (y/Y/n/N): [y]: ';
       $build_default = SetupTools::getInput("y");
