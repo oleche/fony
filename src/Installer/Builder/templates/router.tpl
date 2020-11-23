@@ -2,7 +2,7 @@
 namespace {PROJECTNAMESPACE};
 
 use Geekcow\FonyCore\FonyApi;
-use Geekcow\FonyCore\Helpers\AllowCore;
+use {PROJECTNAMESPACE}\Helpers\Allow;
 {CUSTOM_USES}
 
 class Router extends FonyApi{
@@ -11,9 +11,9 @@ class Router extends FonyApi{
 
     parent::__construct($request, $origin, $config_file);
 
-
     {CUSTOM_ACTIONS}
-    $this->setAllowedCoreRoles(AllowCore::ADMINISTRATOR());
+    
+    $this->setAllowedRoles(Allow::ADMINISTRATOR());
   }
 
   //WELCOME MESSAGE

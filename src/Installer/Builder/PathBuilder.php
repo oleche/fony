@@ -23,6 +23,12 @@ class PathBuilder{
       // dir doesn't exist, make it
       mkdir($this->rootPath."/src");
     }
+    //create src/Helpers
+    //Create src
+    if (!is_dir($this->rootPath."/src/Helpers")) {
+      // dir doesn't exist, make it
+      mkdir($this->rootPath."/src/Helpers");
+    }
   }
 
   public function buildInitialTree($auth = false){
@@ -42,6 +48,7 @@ class PathBuilder{
       $this->buildAuthenticationRouter();
     }
     $this->buildInternalHtaccess();
+    $this->buildAllow();
   }
 
   private function buildDemoTree(){
@@ -71,6 +78,13 @@ class PathBuilder{
     $file = str_replace("{CUSTOM_ACTIONS}", '', $file);
     $file = str_replace("{CUSTOM_ENDPOINTS}", '', $file);
     $file = str_replace("{CUSTOM_PRESTAGING}", '', $file);
+    file_put_contents($filename,$file);
+  }
+
+  private function buildAllow(){
+    $filename = $this->rootPath."/src/Helpers/Allow.php";
+    $file = file_get_contents(dirname(__FILE__) . '/templates/helpers/allow.tpl');
+    $file = str_replace("{PROJECTNAMESPACE}", $this->namespace, $file);
     file_put_contents($filename,$file);
   }
 
