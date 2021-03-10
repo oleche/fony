@@ -55,7 +55,7 @@ protected function user(){
     $this->response_code = 405;
     return "Invalid method";
   }
-  return $this->_executesCall(true);
+  return $this->executesCall(true);
 }
 
 /**
@@ -69,7 +69,7 @@ protected function client(){
     $this->response_code = 405;
     return "Invalid method";
   }
-  return $this->_executesCall(true);
+  return $this->executesCall(true);
 }
 
 /**
@@ -83,5 +83,5 @@ protected function scope(){
     $this->response_code = 405;
     return "Invalid method";
   }
-  return $this->_executesCall(true);
+  return $this->executesCall(true);
 }
