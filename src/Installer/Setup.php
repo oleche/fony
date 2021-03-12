@@ -230,6 +230,9 @@ class Setup
             $data['autoload'] = array();
             $data['autoload']['psr-4'] = array();
             $data['autoload']['psr-4'][$namespace] = 'src/';
+        }else{
+            $data['autoload']['psr-4'] = array();
+            $data['autoload']['psr-4'][$namespace] = 'src/';
         }
         if (isset($data['scripts'])) {
             if (isset($data['scripts']['setup-fony'])) {
@@ -237,6 +240,7 @@ class Setup
             }
             if ($auth_app == "y") {
                 $data['scripts']['fony:update-user-password'] = "Geekcow\\Fony\\Installer\\UserPassword::updateCore";
+                $data['scripts']['fony:recreate-database'] = "Geekcow\\Fony\\Installer\\DatabaseAdmin::recreateDatabase";
             }
             $newJsonString = json_encode($data, JSON_PRETTY_PRINT);
             file_put_contents(realpath(Factory::getComposerFile()), $newJsonString);

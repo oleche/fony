@@ -45,6 +45,7 @@ class PathBuilder
         -> .htaccess
         */
         $this->buildHtaccess();
+        $this->buildBaseRouter();
         $this->buildApi();
         if (!$auth) {
             $this->buildBasicRouter();
@@ -65,6 +66,22 @@ class PathBuilder
         $file = file_get_contents(dirname(__FILE__) . '/templates/htaccess.tpl');
         $file = str_replace("{PROJECTBASEPATH}", $this->basePath, $file);
         file_put_contents($filename, $file);
+    }
+
+    /**
+     * Router for PHP built-in server
+     */
+    private function buildBaseRouter()
+    {
+        $filename = $this->rootPath . "/.router.php";
+        $file = file_get_contents(dirname(__FILE__) . '/templates/core-router.tpl');
+        $file = str_replace("{PROJECTBASEPATH}", $this->basePath, $file);
+        file_put_contents($filename, $file);
+        //Router executor
+        $serve_filename = $this->rootPath . "/fony-serve.sh";
+        $serve_file = file_get_contents(dirname(__FILE__) . '/templates/fony-serve.tpl');
+        file_put_contents($serve_filename, $serve_file);
+        chmod($serve_filename, 777);
     }
 
     private function buildApi()
