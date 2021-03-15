@@ -215,7 +215,7 @@ class Setup
         if ($auth_app == "y") {
             //Create user
             $userMgmt = new UserCreation();
-            $userMgmt->create($client, $secret_key, $username, $password, $secret);
+            $userMgmt->create($project_name_fixed, $client, $secret_key, $username, $password, $secret);
 
             //Creatre folder structure
             $builder->buildInitialTree(true);
@@ -241,6 +241,8 @@ class Setup
             if ($auth_app == "y") {
                 $data['scripts']['fony:update-user-password'] = "Geekcow\\Fony\\Installer\\UserPassword::updateCore";
                 $data['scripts']['fony:recreate-database'] = "Geekcow\\Fony\\Installer\\DatabaseAdmin::recreateDatabase";
+            }else{
+                $data['scripts']['fony:create-model'] = "Geekcow\\Fony\\Installer\\DatabaseAdmin::createModel";
             }
             $newJsonString = json_encode($data, JSON_PRETTY_PRINT);
             file_put_contents(realpath(Factory::getComposerFile()), $newJsonString);

@@ -1,4 +1,5 @@
 <?php
+
 namespace {PROJECTNAMESPACE};
 
 use Geekcow\FonyCore\FonyApi;
@@ -27,5 +28,3 @@ class Router extends FonyApi{
 
   {CUSTOM_ENDPOINTS}
 }
-
-?>

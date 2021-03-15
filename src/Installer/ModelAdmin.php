@@ -14,17 +14,18 @@ use Composer\Factory;
 use Composer\Installer\PackageEvent;
 use Composer\IO\NullIO;
 use Composer\Script\Event;
+use Geekcow\Fony\Installer\Model\ModelMaintenance;
 use Geekcow\Fony\Installer\Tools\SetupTools;
 use Geekcow\Fony\Installer\User\DatabaseMaintenance;
 use Geekcow\Fony\Installer\User\UserUpdate;
 use Geekcow\FonyAuth\Utils\ConfigurationUtils;
 
 
-class DatabaseAdmin
+class ModelAdmin
 {
 
 
-    public static function recreateDatabase(Event $event)
+    public static function createModel(Event $event)
     {
         $composer = Factory::create(new NullIo(), './composer.json', false);
 
@@ -53,13 +54,13 @@ class DatabaseAdmin
             $configurer = new ConfigurationConfigurer($config);
             $dummy = ConfigurationUtils::getInstance($config);
 
-            echo 'Do you want to continue, this will reset all the information: [No]: ';
-            $continue = SetupTools::getInput("No");
+            echo 'Write the location of the model yml file: ';
+            $model_file = SetupTools::getInput("");
             echo PHP_EOL;
 
-            if ($continue != "No") {
-                $dbmaintenance = new DatabaseMaintenance();
-                $dbmaintenance->createAuthenticated();
+            if ($model_file != "") {
+                $dbmaintenance = new ModelMaintenance();
+                $dbmaintenance->createModel();
             }
         }
 

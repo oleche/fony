@@ -25,14 +25,24 @@ class UserCreation
         $this->api_user_asoc = new ApiUserAsoc();
     }
 
-    public function create($client, $key, $email, $password, $secret)
+    public function create($project, $client, $key, $email, $password, $secret)
     {
-        if ($this->createUser($email, $password)) {
-            $username = md5($email);
-            $the_client = sha1($username . $email . date("Y-m-d H:i:s"));
-            if ($this->createApi($client, $key, $the_client, $email, $username, $secret)) {
-                if ($this->associateClient($username, $the_client) && $this->associateClient($username, $client)) {
-                    return true;
+        $system_mail = "system@".$project;
+        if ($this->createUser($system_mail, $password)){
+            $system_username = md5($system_mail);
+            if ($this->createUser($email, $password)) {
+                $username = md5($email);
+                $the_client = sha1($username . $email . date("Y-m-d H:i:s"));
+                if ($this->createPublicApi($client, $key, $system_mail, $system_username)) {
+                    if ($this->associateClient($system_username, $client) &&
+                        $this->associateClient($username, $the_client) &&
+                        $this->associateClient($username, $client)) {
+                        if ($this->createApi($the_client, $email, $username, $secret, array('administrator','visitor'))) {
+                            if ($this->associateClient($username, $the_client)) {
+                                return true;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -73,8 +83,9 @@ class UserCreation
         echo '.';
     }
 
-    private function createApi($base_client, $base_secret, $client, $email, $username, $secret)
+    private function createPublicApi($base_client, $base_secret, $email, $username)
     {
+        $this->api_client = new ApiClient();
         $this->api_client->columns['client_id'] = $base_client;
         $this->api_client->columns['client_secret'] = $base_secret;
         $this->api_client->columns['email'] = $email;
@@ -96,7 +107,10 @@ class UserCreation
         if (!is_numeric($idx)) {
             return false;
         }
+    }
 
+    private function createApi($client, $email, $username, $secret, $scopes = array())
+    {
         $this->api_client = new ApiClient();
         $secret = sha1($client . $secret);
         $this->api_client->columns['client_id'] = $client;
@@ -114,15 +128,20 @@ class UserCreation
             return false;
         }
 
-        $this->api_client_scopes = new ApiClientScope();
-        $this->api_client_scopes->columns['id_client'] = $client;
-        $this->api_client_scopes->columns['id_scope'] = 'administrator';
-        $idx = $this->api_client_scopes->insert();
-        if (is_numeric($idx)) {
+        $retval = true;
+        foreach ($scopes as $scope) {
+            $this->api_client_scopes = new ApiClientScope();
+            $this->api_client_scopes->columns['id_client'] = $client;
+            $this->api_client_scopes->columns['id_scope'] = $scope;
+            $idx = $this->api_client_scopes->insert();
+            if (is_numeric($idx)) {
+                $retval = ($retval && true);
+            }else{
+                $retval = ($retval && false);
+            }
             echo '.';
-            return true;
         }
 
-        return false;
+        return $retval;
     }
 }

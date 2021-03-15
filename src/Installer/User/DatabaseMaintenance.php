@@ -12,8 +12,9 @@ class DatabaseMaintenance
 {
     private $user_type;
     private const DEFAULT_USER_TYPES = array(
-        "1" => array("name" => "administrator", "priority" => 10, "scope" => "administrator"),
-        "2" => array("name" => "user", "priority" => 1, "scope" => "user")
+        "1" => array("id"=> 1, "name" => "system", "priority" => 10, "scope" => "system,administrator"),
+        "2" => array("id"=> 2, "name" => "administrator", "priority" => 1, "scope" => "visitor,administrator"),
+        "3" => array("id"=> 3, "name" => "user", "priority" => 1, "scope" => "visitor,user")
     );
 
     private $scope;

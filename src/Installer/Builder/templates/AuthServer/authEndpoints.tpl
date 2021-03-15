@@ -7,9 +7,9 @@
 protected function authenticate(){
   switch ($this->method) {
    case 'POST':
-     $this->core_action->doPost($_SERVER['HTTP_Authorization'], $_POST, $this->verb);
-     $this->response_code = $this->core_action->response['code'];
-     return $this->core_action->response;
+     $this->action->doPost($_SERVER['HTTP_Authorization'], $_POST, $this->verb);
+     $this->response_code = $this->action->response['code'];
+     return $this->action->response;
      break;
    case 'OPTIONS':
      exit(0);
@@ -30,9 +30,9 @@ protected function authenticate(){
 protected function validate(){
 switch ($this->method) {
  case 'POST':
-   $this->core_action->doPost($_SERVER['HTTP_Authorization'], $_POST);
-   $this->response_code = $this->core_action->response['code'];
-   return $this->core_action->response;
+   $this->action->doPost($_SERVER['HTTP_Authorization'], $_POST);
+   $this->response_code = $this->action->response['code'];
+   return $this->action->response;
    break;
  case 'OPTIONS':
    exit(0);
@@ -51,11 +51,7 @@ switch ($this->method) {
  *
  */
 protected function user(){
-  if ($this->exclude_core_actions){
-    $this->response_code = 405;
-    return "Invalid method";
-  }
-  return $this->executesCall(true);
+  return $this->executesCall();
 }
 
 /**
@@ -65,11 +61,7 @@ protected function user(){
  *
  */
 protected function client(){
-  if ($this->exclude_core_actions){
-    $this->response_code = 405;
-    return "Invalid method";
-  }
-  return $this->executesCall(true);
+  return $this->executesCall();
 }
 
 /**
@@ -79,9 +71,5 @@ protected function client(){
  *
  */
 protected function scope(){
-  if ($this->exclude_core_actions){
-    $this->response_code = 405;
-    return "Invalid method";
-  }
-  return $this->executesCall(true);
+  return $this->executesCall();
 }
