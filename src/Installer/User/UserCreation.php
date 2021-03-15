@@ -35,7 +35,6 @@ class UserCreation
                 $the_client = sha1($username . $email . date("Y-m-d H:i:s"));
                 if ($this->createPublicApi($client, $key, $system_mail, $system_username)) {
                     if ($this->associateClient($system_username, $client) &&
-                        $this->associateClient($username, $the_client) &&
                         $this->associateClient($username, $client)) {
                         if ($this->createApi($the_client, $email, $username, $secret, array('administrator','visitor'))) {
                             if ($this->associateClient($username, $the_client)) {
