@@ -30,13 +30,13 @@ class UserCreation
         $system_mail = "system@".$project;
         if ($this->createUser($system_mail, $password)){
             $system_username = md5($system_mail);
-            if ($this->createUser($email, $password)) {
+            if ($this->createUser($email, $password, 2)) {
                 $username = md5($email);
                 $the_client = sha1($username . $email . date("Y-m-d H:i:s"));
                 if ($this->createPublicApi($client, $key, $system_mail, $system_username)) {
                     if ($this->associateClient($system_username, $client) &&
                         $this->associateClient($username, $client)) {
-                        if ($this->createApi($the_client, $email, $username, $secret, array('administrator','visitor'))) {
+                        if ($this->createApi($the_client, $email, $username, $secret, array('administrator','visitor','system'))) {
                             if ($this->associateClient($username, $the_client)) {
                                 return true;
                             }
@@ -47,7 +47,7 @@ class UserCreation
         }
     }
 
-    private function createUser($email, $password)
+    private function createUser($email, $password, $type = 1)
     {
         $username = md5($email);
         $password = sha1($password);
@@ -56,7 +56,7 @@ class UserCreation
         $this->user->columns['lastname'] = "";
         $this->user->columns['email'] = $email;
         $this->user->columns['phone'] = "";
-        $this->user->columns['type'] = 1;
+        $this->user->columns['type'] = $type;
         $this->user->columns['avatar'] = "";
         $this->user->columns['avatar_path'] = "";
         $this->user->columns['password'] = (isset($password)) ? $password : "";
@@ -106,6 +106,8 @@ class UserCreation
         if (!is_numeric($idx)) {
             return false;
         }
+
+        return true;
     }
 
     private function createApi($client, $email, $username, $secret, $scopes = array())

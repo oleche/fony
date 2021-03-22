@@ -13,14 +13,15 @@ class DatabaseMaintenance
     private $user_type;
     private const DEFAULT_USER_TYPES = array(
         "1" => array("id"=> 1, "name" => "system", "priority" => 10, "scope" => "system,administrator"),
-        "2" => array("id"=> 2, "name" => "administrator", "priority" => 1, "scope" => "visitor,administrator"),
+        "2" => array("id"=> 2, "name" => "administrator", "priority" => 5, "scope" => "visitor,administrator"),
         "3" => array("id"=> 3, "name" => "user", "priority" => 1, "scope" => "visitor,user")
     );
 
     private $scope;
     private const DEFAULT_SCOPES = array(
+        "system" => array("level" => 0, "priority" => 1),
         "administrator" => array("level" => 1, "priority" => 1),
-        "visitor" => array("level" => 1, "priority" => 1),
+        "visitor" => array("level" => 2, "priority" => 1),
         "user" => array("level" => 2, "priority" => 2)
     );
 
@@ -43,9 +44,210 @@ class DatabaseMaintenance
         "12" => array("name" => 'grant_type', "regex" => '/^(password|client_credentials|refresh_token)$/')
     );
 
+    private const DEFAULT_API_FORMS = array(
+        "1" => array(
+            "endpoint" => '/api-forms',
+            "field" => 'endpoint',
+            "id_type" => 1,
+            "sample" => '/url/:id/verb',
+            "internal" => 0,
+            "required" => 1,
+            "blank" => 1,
+            "scopes" => '',
+            "method" => 'POST'
+        ),
+        "2" => array(
+            "endpoint" => '/api-forms',
+            "field" => 'field',
+            "id_type" => 1,
+            "sample" => '',
+            "internal" => 0,
+            "required" => 1,
+            "blank" => 1,
+            "scopes" => '',
+            "method" => 'POST'
+        ),
+        "3" => array(
+            "endpoint" => '/api-forms',
+            "field" => 'id_type',
+            "id_type" => 2,
+            "sample" => 'Go to https://github.com/oleche/fony-core/wiki/Api-Form#field-types for more information',
+            "internal" => 0,
+            "required" => 1,
+            "blank" => 1,
+            "scopes" => '',
+            "method" => 'POST'
+        ),
+        "4" => array(
+            "endpoint" => '/api-forms',
+            "field" => 'sample',
+            "id_type" => 1,
+            "sample" => 'A sample of the field entry',
+            "internal" => 0,
+            "required" => 1,
+            "blank" => 1,
+            "scopes" => '',
+            "method" => 'POST'
+        ),
+        "5" => array(
+            "endpoint" => '/api-forms',
+            "field" => 'internal',
+            "id_type" => 9,
+            "sample" => 'SET AS VALUE 0',
+            "internal" => 0,
+            "required" => 1,
+            "blank" => 1,
+            "scopes" => '',
+            "method" => 'POST'
+        ),
+        "6" => array(
+            "endpoint" => '/api-forms',
+            "field" => 'required',
+            "id_type" => 9,
+            "sample" => 'If its required set as 1 otherwise 0',
+            "internal" => 0,
+            "required" => 1,
+            "blank" => 1,
+            "scopes" => '',
+            "method" => 'POST'
+        ),
+        "7" => array(
+            "endpoint" => '/api-forms',
+            "field" => 'blank',
+            "id_type" => 9,
+            "sample" => 'If it does not to be empty set 1 otherwise 0' ,
+            "internal" => 0,
+            "required" => 1,
+            "blank" => 1,
+            "scopes" => '',
+            "method" => 'POST'
+        ),
+        "8" => array(
+            "endpoint" => '/api-forms',
+            "field" => 'scopes',
+            "id_type" => 1,
+            "sample" => 'the scope the field will be used, the implementation is pending',
+            "internal" => 0,
+            "required" => 1,
+            "blank" => 1,
+            "scopes" => '',
+            "method" => 'POST'
+        ),
+        "9" => array(
+            "endpoint" => '/api-forms',
+            "field" => 'method',
+            "id_type" => 1,
+            "sample" => 'POST, PUT, GET, DELETE',
+            "internal" => 0,
+            "required" => 1,
+            "blank" => 1,
+            "scopes" => '',
+            "method" => 'POST'
+        ),
+        "10" => array(
+            "endpoint" => '/api-forms/:id',
+            "field" => 'endpoint',
+            "id_type" => 1,
+            "sample" => '/url/:id/verb',
+            "internal" => 0,
+            "required" => 1,
+            "blank" => 1,
+            "scopes" => '',
+            "method" => 'PUT'
+        ),
+        "11" => array(
+            "endpoint" => '/api-forms/:id',
+            "field" => 'field',
+            "id_type" => 1,
+            "sample" => '',
+            "internal" => 0,
+            "required" => 1,
+            "blank" => 1,
+            "scopes" => '',
+            "method" => 'PUT'
+        ),
+        "12" => array(
+            "endpoint" => '/api-forms/:id',
+            "field" => 'id_type',
+            "id_type" => 2,
+            "sample" => 'Go to https://github.com/oleche/fony-core/wiki/Api-Form#field-types for more information',
+            "internal" => 0,
+            "required" => 1,
+            "blank" => 1,
+            "scopes" => '',
+            "method" => 'PUT'
+        ),
+        "13" => array(
+            "endpoint" => '/api-forms/:id',
+            "field" => 'sample',
+            "id_type" => 1,
+            "sample" => 'A sample of the field entry',
+            "internal" => 0,
+            "required" => 1,
+            "blank" => 1,
+            "scopes" => '',
+            "method" => 'PUT'
+        ),
+        "14" => array(
+            "endpoint" => '/api-forms/:id',
+            "field" => 'internal',
+            "id_type" => 9,
+            "sample" => 'SET AS VALUE 0',
+            "internal" => 0,
+            "required" => 1,
+            "blank" => 1,
+            "scopes" => '',
+            "method" => 'PUT'
+        ),
+        "15" => array(
+            "endpoint" => '/api-forms/:id',
+            "field" => 'required',
+            "id_type" => 9,
+            "sample" => 'If its required set as 1 otherwise 0',
+            "internal" => 0,
+            "required" => 1,
+            "blank" => 1,
+            "scopes" => '',
+            "method" => 'PUT'
+        ),
+        "16" => array(
+            "endpoint" => '/api-forms/:id',
+            "field" => 'blank',
+            "id_type" => 9,
+            "sample" => 'If it does not to be empty set 1 otherwise 0' ,
+            "internal" => 0,
+            "required" => 1,
+            "blank" => 1,
+            "scopes" => '',
+            "method" => 'PUT'
+        ),
+        "17" => array(
+            "endpoint" => '/api-forms/:id',
+            "field" => 'scopes',
+            "id_type" => 1,
+            "sample" => 'the scope the field will be used, the implementation is pending',
+            "internal" => 0,
+            "required" => 1,
+            "blank" => 1,
+            "scopes" => '',
+            "method" => 'PUT'
+        ),
+        "18" => array(
+            "endpoint" => '/api-forms/:id',
+            "field" => 'method',
+            "id_type" => 1,
+            "sample" => 'POST, PUT, GET, DELETE',
+            "internal" => 0,
+            "required" => 1,
+            "blank" => 1,
+            "scopes" => '',
+            "method" => 'PUT'
+        )
+    );
+
     private $form;
     private const DEFAULT_FORMS = array(
-        "1" => array(
+        "19" => array(
             "endpoint" => 'v1/authenticate',
             "field" => 'username',
             "id_type" => 4,
@@ -56,7 +258,7 @@ class DatabaseMaintenance
             "scopes" => '',
             "method" => 'POST'
         ),
-        "2" => array(
+        "20" => array(
             "endpoint" => 'v1/authenticate',
             "field" => 'password',
             "id_type" => 1,
@@ -67,8 +269,8 @@ class DatabaseMaintenance
             "scopes" => '',
             "method" => 'POST'
         ),
-        "3" => array(
-            "endpoint" => 'v1/user',
+        "21" => array(
+            "endpoint" => '/user',
             "field" => 'name',
             "id_type" => 1,
             "sample" => '',
@@ -78,8 +280,8 @@ class DatabaseMaintenance
             "scopes" => '',
             "method" => 'POST'
         ),
-        "4" => array(
-            "endpoint" => 'v1/user',
+        "22" => array(
+            "endpoint" => '/user',
             "field" => 'lastname',
             "id_type" => 11,
             "sample" => '',
@@ -89,8 +291,8 @@ class DatabaseMaintenance
             "scopes" => '',
             "method" => 'POST'
         ),
-        "5" => array(
-            "endpoint" => 'v1/user',
+        "23" => array(
+            "endpoint" => '/user',
             "field" => 'type',
             "id_type" => 2,
             "sample" => '',
@@ -100,8 +302,8 @@ class DatabaseMaintenance
             "scopes" => '',
             "method" => 'POST'
         ),
-        "6" => array(
-            "endpoint" => 'v1/user',
+        "24" => array(
+            "endpoint" => '/user',
             "field" => 'email',
             "id_type" => 4,
             "sample" => '',
@@ -111,8 +313,8 @@ class DatabaseMaintenance
             "scopes" => '',
             "method" => 'POST'
         ),
-        "7" => array(
-            "endpoint" => 'v1/user',
+        "25" => array(
+            "endpoint" => '/user',
             "field" => 'phone',
             "id_type" => 1,
             "sample" => '',
@@ -122,19 +324,19 @@ class DatabaseMaintenance
             "scopes" => '',
             "method" => 'POST'
         ),
-        "8" => array(
-            "endpoint" => 'v1/user',
+        "26" => array(
+            "endpoint" => '/user',
             "field" => 'password',
             "id_type" => 1,
             "sample" => '',
             "internal" => 0,
-            "required" => 0,
+            "required" => 1,
             "blank" => 1,
             "scopes" => '',
             "method" => 'POST'
         ),
-        "9" => array(
-            "endpoint" => 'v1/user',
+        "27" => array(
+            "endpoint" => '/user',
             "field" => 'fbid',
             "id_type" => 1,
             "sample" => '',
@@ -144,8 +346,8 @@ class DatabaseMaintenance
             "scopes" => '',
             "method" => 'POST'
         ),
-        "10" => array(
-            "endpoint" => 'v1/user',
+        "28" => array(
+            "endpoint" => '/user',
             "field" => 'googleid',
             "id_type" => 1,
             "sample" => '',
@@ -155,8 +357,8 @@ class DatabaseMaintenance
             "scopes" => '',
             "method" => 'POST'
         ),
-        "11" => array(
-            "endpoint" => 'v1/user',
+        "29" => array(
+            "endpoint" => '/user',
             "field" => 'is_developer',
             "id_type" => 9,
             "sample" => '1 or 0',
@@ -166,8 +368,8 @@ class DatabaseMaintenance
             "scopes" => '',
             "method" => 'POST'
         ),
-        "12" => array(
-            "endpoint" => 'v1/user/:id',
+        "30" => array(
+            "endpoint" => '/user/:id',
             "field" => 'name',
             "id_type" => 1,
             "sample" => '',
@@ -178,8 +380,8 @@ class DatabaseMaintenance
             "scopes" => '',
             "method" => 'PUT'
         ),
-        "13" => array(
-            "endpoint" => 'v1/user/:id',
+        "31" => array(
+            "endpoint" => '/user/:id',
             "field" => 'lastname',
             "id_type" => 1,
             "sample" => '',
@@ -189,8 +391,8 @@ class DatabaseMaintenance
             "scopes" => '',
             "method" => 'PUT'
         ),
-        "14" => array(
-            "endpoint" => 'v1/user/:id',
+        "32" => array(
+            "endpoint" => '/user/:id',
             "field" => 'phone',
             "id_type" => 1,
             "sample" => '',
@@ -200,8 +402,8 @@ class DatabaseMaintenance
             "scopes" => '',
             "method" => 'PUT'
         ),
-        "15" => array(
-            "endpoint" => 'v1/user/:id/password',
+        "33" => array(
+            "endpoint" => '/user/:id/password',
             "field" => 'old_password',
             "id_type" => 5,
             "sample" => '',
@@ -211,8 +413,8 @@ class DatabaseMaintenance
             "scopes" => '',
             "method" => 'PUT'
         ),
-        "16" => array(
-            "endpoint" => 'v1/user/:id/password',
+        "34" => array(
+            "endpoint" => '/user/:id/password',
             "field" => 'password',
             "id_type" => 5,
             "sample" => '',
@@ -222,18 +424,18 @@ class DatabaseMaintenance
             "scopes" => '',
             "method" => 'PUT'
         ),
-        "17" => array(
+        "35" => array(
             "endpoint" => 'v1/validate',
             "field" => 'token',
             "id_type" => 1,
             "sample" => '',
             "internal" => 0,
-            "required" => 0,
+            "required" => 1,
             "blank" => 1,
             "scopes" => '',
             "method" => 'POST'
         ),
-        "18" => array(
+        "36" => array(
             "endpoint" => 'v1/authenticate',
             "field" => 'grant_type',
             "id_type" => 12,
@@ -244,7 +446,7 @@ class DatabaseMaintenance
             "scopes" => '',
             "method" => 'POST'
         ),
-        "19" => array(
+        "37" => array(
             "endpoint" => 'v1/authenticate',
             "field" => 'scope',
             "id_type" => 1,
@@ -255,7 +457,7 @@ class DatabaseMaintenance
             "scopes" => '',
             "method" => 'POST'
         ),
-        "20" => array(
+        "38" => array(
             "endpoint" => 'v1/authenticate/refresh',
             "field" => 'grant_type',
             "id_type" => 12,
@@ -266,7 +468,18 @@ class DatabaseMaintenance
             "scopes" => '',
             "method" => 'POST'
         ),
-        "21" => array(
+        "39" => array(
+            "endpoint" => 'v1/authenticate/refresh',
+            "field" => 'refresh_token',
+            "id_type" => 1,
+            "sample" => '',
+            "internal" => 0,
+            "required" => 1,
+            "blank" => 1,
+            "scopes" => '',
+            "method" => 'POST'
+        ),
+        "40" => array(
             "endpoint" => 'v1/authenticate/refresh',
             "field" => 'refresh_token',
             "id_type" => 1,
@@ -352,6 +565,8 @@ class DatabaseMaintenance
     {
         $this->createFieldTypes();
         echo '.';
+        $this->createApiForms();
+        echo '.';
         $this->createAssetTypes();
         echo '.';
     }
@@ -361,6 +576,8 @@ class DatabaseMaintenance
         $this->createUserTypes();
         echo '.';
         $this->createFieldTypes();
+        echo '.';
+        $this->createApiForms();
         echo '.';
         $this->createForms();
         echo '.';
@@ -390,6 +607,18 @@ class DatabaseMaintenance
                 $this->field_type->columns[$k] = $v;
             }
             $this->field_type->insert();
+        }
+    }
+
+    private function createApiForms()
+    {
+        foreach (self::DEFAULT_API_FORMS as $key => $value) {
+            $this->form = new ApiForm();
+            $this->form->columns['id'] = $key;
+            foreach ($value as $k => $v) {
+                $this->form->columns[$k] = $v;
+            }
+            $this->form->insert();
         }
     }
 

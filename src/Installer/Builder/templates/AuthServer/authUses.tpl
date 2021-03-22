@@ -1,7 +1,11 @@
 use Geekcow\FonyAuth\Controller\AuthController;
-use Geekcow\FonyAuth\Controller\ValidateController;
+use Geekcow\FonyAuth\Controller\ClientActions\ClientPostActions;
 use Geekcow\FonyAuth\Controller\UserController;
-use Geekcow\FonyAuth\CoreModel\ApiScope;
-use Geekcow\FonyAuth\CoreModel\ApiClient;
+use Geekcow\FonyAuth\Controller\ValidateController;
+use Geekcow\FonyAuth\Model\ApiClient;
+use Geekcow\FonyAuth\Model\ApiScope;
 use Geekcow\FonyAuth\Utils\AuthUtils;
+use Geekcow\FonyCore\Controller\GenericActionController;
+use Geekcow\FonyCore\Controller\GenericController;
+use Geekcow\FonyCore\FonyRouter;
 use Geekcow\FonyCore\Utils\SessionUtils;

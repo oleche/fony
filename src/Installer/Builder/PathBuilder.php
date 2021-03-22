@@ -45,6 +45,7 @@ class PathBuilder
         -> .htaccess
         */
         $this->buildHtaccess();
+        $this->buildGitignore();
         $this->buildBaseRouter();
         $this->buildApi();
         if (!$auth) {
@@ -65,6 +66,13 @@ class PathBuilder
         $filename = $this->rootPath . "/.htaccess";
         $file = file_get_contents(dirname(__FILE__) . '/templates/htaccess.tpl');
         $file = str_replace("{PROJECTBASEPATH}", $this->basePath, $file);
+        file_put_contents($filename, $file);
+    }
+
+    private function buildGitignore()
+    {
+        $filename = $this->rootPath . "/.gitignore";
+        $file = file_get_contents(dirname(__FILE__) . '/templates/gitignore.tpl');
         file_put_contents($filename, $file);
     }
 
@@ -118,7 +126,7 @@ class PathBuilder
         $filename = $this->rootPath . "/src/router.php";
         $file = file_get_contents(dirname(__FILE__) . '/templates/router.tpl');
         $actions = file_get_contents(dirname(__FILE__) . '/templates/AuthServer/authActions.tpl');
-        $actions = 'switch($this->endpoint){' . PHP_EOL . $actions . PHP_EOL . '}';
+        $actions = 'switch($this->endpoint){' . PHP_EOL . $actions . PHP_EOL . '        }';
         $endpoints = file_get_contents(dirname(__FILE__) . '/templates/AuthServer/authEndpoints.tpl');
         $prestaging = file_get_contents(dirname(__FILE__) . '/templates/AuthServer/authPrestaging.tpl');
         $uses = file_get_contents(dirname(__FILE__) . '/templates/AuthServer/authUses.tpl');
