@@ -2,11 +2,13 @@
 
 namespace {PROJECTNAMESPACE};
 
-use Geekcow\FonyCore\FonyApi;
+use Geekcow\FonyCore\FonyRouter;
 use {PROJECTNAMESPACE}\Helpers\Allow;
+use {PROJECTNAMESPACE}\Controller\WelcomeController;
+
 {CUSTOM_USES}
 
-class Router extends FonyApi{
+class Router extends FonyRouter{
 
     public function __construct($config_file)
     {
@@ -19,15 +21,6 @@ class Router extends FonyApi{
         parent::prestageEndpoints($endpoint, $request);
 
         {CUSTOM_ACTIONS}
-    }
-
-    //WELCOME MESSAGE
-    protected function welcome() {
-      if ($this->method == 'GET') {
-        return "WELCOME TO FONY PHP";
-      } else {
-        return "Invalid Method";
-      }
     }
 
     {CUSTOM_ENDPOINTS}

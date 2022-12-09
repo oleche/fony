@@ -32,6 +32,21 @@ class PathBuilder
             // dir doesn't exist, make it
             mkdir($this->rootPath . "/src/Helpers");
         }
+
+        if (!is_dir($this->rootPath . "/src/Controller")) {
+            // dir doesn't exist, make it
+            mkdir($this->rootPath . "/src/Controller");
+        }
+
+        if (!is_dir($this->rootPath . "/src/Model")) {
+            // dir doesn't exist, make it
+            mkdir($this->rootPath . "/src/Model");
+        }
+
+        if (!is_dir($this->rootPath . "/src/Service")) {
+            // dir doesn't exist, make it
+            mkdir($this->rootPath . "/src/Service");
+        }
     }
 
     public function buildInitialTree($auth = false)
@@ -52,6 +67,7 @@ class PathBuilder
             $this->buildBasicRouter();
         } else {
             $this->buildAuthenticationRouter();
+            $this->buildBasicWelcomeController();
         }
         $this->buildInternalHtaccess();
         $this->buildAllow();
@@ -104,12 +120,23 @@ class PathBuilder
     private function buildBasicRouter()
     {
         $filename = $this->rootPath . "/src/router.php";
+        $actions = file_get_contents(dirname(__FILE__) . '/templates/Welcome/welcomeActions.tpl');
+        $actions = 'switch($this->endpoint){' . PHP_EOL . $actions . PHP_EOL . '        }';
+        $endpoints = file_get_contents(dirname(__FILE__) . '/templates/Welcome/welcomeEndpoints.tpl');
         $file = file_get_contents(dirname(__FILE__) . '/templates/router.tpl');
         $file = str_replace("{PROJECTNAMESPACE}", $this->namespace, $file);
         $file = str_replace("{CUSTOM_USES}", '', $file);
-        $file = str_replace("{CUSTOM_ACTIONS}", '', $file);
-        $file = str_replace("{CUSTOM_ENDPOINTS}", '', $file);
+        $file = str_replace("{CUSTOM_ACTIONS}", $actions, $file);
+        $file = str_replace("{CUSTOM_ENDPOINTS}", $endpoints, $file);
         $file = str_replace("{CUSTOM_PRESTAGING}", '', $file);
+        file_put_contents($filename, $file);
+    }
+
+    private function buildBasicWelcomeController()
+    {
+        $filename = $this->rootPath . "/src/Controller/WelcomeController.php";
+        $file = file_get_contents(dirname(__FILE__) . '/templates/Welcome/welcome-controller.tpl');
+        $file = str_replace("{PROJECTNAMESPACE}", $this->namespace, $file);
         file_put_contents($filename, $file);
     }
 
