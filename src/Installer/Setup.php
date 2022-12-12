@@ -163,6 +163,10 @@ class Setup
             $authenticationServer = SetupTools::getInput("");
             echo PHP_EOL;
 
+            echo 'Write the oauth2 server location port: [80]: ';
+            $authenticationServerPort = SetupTools::getInput("80");
+            echo PHP_EOL;
+
             echo 'Write the oauth2 token introspection endpoint: [/validate]: ';
             $authenticationEndpoint = SetupTools::getInput("/validate");
             echo PHP_EOL;
@@ -182,6 +186,7 @@ class Setup
             $configurer->changeGroup('fony');
             $configurer->setField('fony.auth_method', 'Oauth');
             $configurer->setField('fony.auth_url', $authenticationServer);
+            $configurer->setField('fony.auth_url_port', $authenticationServerPort);
             $configurer->setField('fony.auth_refresh', $refreshEndpoint);
             $configurer->setField('fony.auth_validate', $authenticationEndpoint);
             $configurer->setField('fony.user_client', $authenticationClient);
