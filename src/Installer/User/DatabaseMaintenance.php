@@ -489,6 +489,17 @@ class DatabaseMaintenance
             "blank" => 1,
             "scopes" => '',
             "method" => 'POST'
+        ),
+        "41" => array(
+            "endpoint" => '/client',
+            "field" => 'name',
+            "id_type" => 1,
+            "sample" => '',
+            "internal" => 0,
+            "required" => 1,
+            "blank" => 1,
+            "scopes" => '',
+            "method" => 'POST'
         )
     );
 

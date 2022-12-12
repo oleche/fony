@@ -119,7 +119,7 @@ class PathBuilder
 
     private function buildBasicRouter()
     {
-        $filename = $this->rootPath . "/src/router.php";
+        $filename = $this->rootPath . "/src/Router.php";
         $actions = file_get_contents(dirname(__FILE__) . '/templates/Welcome/welcomeActions.tpl');
         $actions = 'switch($this->endpoint){' . PHP_EOL . $actions . PHP_EOL . '        }';
         $endpoints = file_get_contents(dirname(__FILE__) . '/templates/Welcome/welcomeEndpoints.tpl');

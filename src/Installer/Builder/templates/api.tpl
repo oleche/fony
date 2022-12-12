@@ -4,7 +4,7 @@ require 'vendor/autoload.php';
 define('MY_DOC_ROOT', __DIR__);
 define('MY_ASSET_ROOT', __DIR__);
 
-use {PROJECTNAMESPACE}\router;
+use {PROJECTNAMESPACE}\Router;
 use Geekcow\FonyCore\FonyApi;
 
 // Requests from the same server don't have a HTTP_ORIGIN header

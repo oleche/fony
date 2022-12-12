@@ -7,5 +7,4 @@ use Geekcow\FonyAuth\Model\ApiScope;
 use Geekcow\FonyAuth\Utils\AuthUtils;
 use Geekcow\FonyCore\Controller\GenericActionController;
 use Geekcow\FonyCore\Controller\GenericController;
-use Geekcow\FonyCore\FonyRouter;
 use Geekcow\FonyCore\Utils\SessionUtils;
