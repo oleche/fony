@@ -8,7 +8,7 @@
 
 namespace Geekcow\Fony\Installer;
 
-define('MY_DOC_ROOT', __DIR__);
+defined('MY_DOC_ROOT') || define('MY_DOC_ROOT', __DIR__);
 
 use Composer\Factory;
 use Composer\Installer\PackageEvent;
